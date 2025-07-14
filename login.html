@@ -30,8 +30,7 @@
                 <div class="form-group">
                     <label for="username">Username</label>
                     <div class="input-group">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                        <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="off" required>
                     </div>
                     <span class="error-message" id="usernameError"></span>
                 </div>
@@ -39,8 +38,7 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="off" required>
                         <i class="fas fa-eye-slash toggle-password" onclick="togglePassword()"></i>
                     </div>
                     <span class="error-message" id="passwordError"></span>
@@ -81,7 +79,6 @@
                     <div class="form-group">
                         <label for="firstName">First Name</label>
                         <div class="input-group">
-                            <i class="fas fa-user"></i>
                             <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
                         </div>
                         <span class="error-message" id="firstNameError"></span>
@@ -90,7 +87,6 @@
                     <div class="form-group">
                         <label for="lastName">Last Name</label>
                         <div class="input-group">
-                            <i class="fas fa-user"></i>
                             <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
                         </div>
                         <span class="error-message" id="lastNameError"></span>
@@ -100,7 +96,6 @@
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <div class="input-group">
-                        <i class="fas fa-envelope"></i>
                         <input type="email" id="email" name="email" placeholder="Enter your email address" required>
                     </div>
                     <span class="error-message" id="emailError"></span>
@@ -109,8 +104,7 @@
                 <div class="form-group">
                     <label for="signupUsername">Username</label>
                     <div class="input-group">
-                        <i class="fas fa-user-circle"></i>
-                        <input type="text" id="signupUsername" name="signupUsername" placeholder="Choose a username" required>
+                        <input type="text" id="signupUsername" name="signupUsername" placeholder="Choose a username" autocomplete="off" required>
                     </div>
                     <span class="error-message" id="signupUsernameError"></span>
                 </div>
@@ -118,8 +112,7 @@
                 <div class="form-group">
                     <label for="signupPassword">Password</label>
                     <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="signupPassword" name="signupPassword" placeholder="Create a password" required>
+                        <input type="password" id="signupPassword" name="signupPassword" placeholder="Create a password" autocomplete="off" required>
                         <i class="fas fa-eye-slash toggle-password" onclick="toggleSignupPassword()"></i>
                     </div>
                     <span class="error-message" id="signupPasswordError"></span>
@@ -128,8 +121,7 @@
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
                     <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" autocomplete="off" required>
                         <i class="fas fa-eye-slash toggle-password" onclick="toggleConfirmPassword()"></i>
                     </div>
                     <span class="error-message" id="confirmPasswordError"></span>
@@ -138,7 +130,6 @@
                 <div class="form-group">
                     <label for="storePosition">Position/Role</label>
                     <div class="input-group">
-                        <i class="fas fa-briefcase"></i>
                         <select id="storePosition" name="storePosition" required>
                             <option value="">Select your role</option>
                             <option value="manager">Store Manager</option>
