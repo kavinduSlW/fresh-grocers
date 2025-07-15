@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fresh Grocers - Home</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login-modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +24,7 @@
                 <a href="#features">Features</a>
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
-                <button class="login-btn-nav" onclick="goToLogin()">
+                <button class="login-btn-nav" onclick="showLoginOptions()">
                     <i class="fas fa-sign-in-alt"></i>
                     Login
                 </button>
@@ -39,8 +40,8 @@
         <div class="hero-container">
             <div class="hero-content">
                 <h1>Fresh Grocers</h1>
-                <h2>Inventory Management System</h2>
-                <p>Streamline your grocery store operations with our comprehensive inventory management solution. Track products, manage stock levels, and generate detailed reports all in one place.</p>
+                <h2>Grocery Delivery & Management System</h2>
+                <p>Experience fresh grocery shopping with home delivery, or manage your store operations with our comprehensive admin tools. Whether you're a customer looking for fresh produce or a staff member managing inventory, we've got you covered.</p>
                 <div class="hero-buttons">
                     <button class="btn-primary-large" onclick="goToLogin()">
                         <i class="fas fa-rocket"></i>
@@ -66,47 +67,47 @@
     <section id="features" class="features-section">
         <div class="container">
             <h2>Powerful Features</h2>
-            <p class="section-subtitle">Everything you need to manage your grocery store inventory efficiently</p>
+            <p class="section-subtitle">Everything you need for grocery delivery and store management</p>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Online Shopping</h3>
+                    <p>Browse fresh products, add to cart, and order groceries for home delivery with ease.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Home Delivery</h3>
+                    <p>Choose your delivery agent and get fresh groceries delivered right to your doorstep.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
                         <i class="fas fa-tachometer-alt"></i>
                     </div>
-                    <h3>Real-time Dashboard</h3>
-                    <p>Monitor your inventory levels, sales, and alerts in real-time with our intuitive dashboard.</p>
+                    <h3>Admin Dashboard</h3>
+                    <p>Comprehensive management tools for inventory, orders, reports, and staff administration.</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-plus-circle"></i>
+                        <i class="fas fa-boxes"></i>
                     </div>
-                    <h3>Easy Product Management</h3>
-                    <p>Add, edit, and organize your products with our user-friendly interface and bulk operations.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>Advanced Search & Filters</h3>
-                    <p>Find products quickly with powerful search and filtering capabilities across all categories.</p>
+                    <h3>Inventory Management</h3>
+                    <p>Track stock levels, manage products, and receive low stock alerts automatically.</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-chart-bar"></i>
                     </div>
-                    <h3>Detailed Reports</h3>
-                    <p>Generate comprehensive reports and analytics to make informed business decisions.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bell"></i>
-                    </div>
-                    <h3>Low Stock Alerts</h3>
-                    <p>Never run out of products with automated low stock alerts and reorder notifications.</p>
+                    <h3>Analytics & Reports</h3>
+                    <p>Generate detailed sales reports and analytics to make informed business decisions.</p>
                 </div>
                 
                 <div class="feature-card">
@@ -114,7 +115,7 @@
                         <i class="fas fa-mobile-alt"></i>
                     </div>
                     <h3>Mobile Responsive</h3>
-                    <p>Access your inventory management system from any device, anywhere, anytime.</p>
+                    <p>Access the platform from any device - desktop, tablet, or mobile phone.</p>
                 </div>
             </div>
         </div>
@@ -126,20 +127,20 @@
             <div class="about-content">
                 <div class="about-text">
                     <h2>About Fresh Grocers</h2>
-                    <p>Fresh Grocers is a modern, comprehensive inventory management system designed specifically for grocery stores and food retailers. Our platform helps you streamline operations, reduce waste, and maximize profitability.</p>
+                    <p>Fresh Grocers is a comprehensive grocery delivery and management platform designed for modern food retail. We serve both customers seeking fresh groceries with convenient home delivery and store administrators managing operations efficiently.</p>
                     
                     <div class="about-stats">
                         <div class="stat">
                             <h3>500+</h3>
-                            <p>Products Managed</p>
-                        </div>
-                        <div class="stat">
-                            <h3>99.9%</h3>
-                            <p>Uptime</p>
+                            <p>Fresh Products</p>
                         </div>
                         <div class="stat">
                             <h3>24/7</h3>
-                            <p>Support</p>
+                            <p>Delivery Service</p>
+                        </div>
+                        <div class="stat">
+                            <h3>100%</h3>
+                            <p>Fresh Guarantee</p>
                         </div>
                     </div>
                 </div>
@@ -156,11 +157,17 @@
     <section id="contact" class="contact-section">
         <div class="container">
             <h2>Get Started Today</h2>
-            <p>Ready to transform your grocery store management? Login to access your dashboard.</p>
-            <button class="btn-primary-large" onclick="goToLogin()">
-                <i class="fas fa-sign-in-alt"></i>
-                Access Dashboard
-            </button>
+            <p>Ready to experience fresh grocery shopping or manage your store operations? Choose your access type below.</p>
+            <div class="cta-buttons">
+                <button class="btn-primary-large" onclick="goToCustomerLogin()">
+                    <i class="fas fa-user"></i>
+                    Customer Login
+                </button>
+                <button class="btn-secondary-large" onclick="goToStaffLogin()">
+                    <i class="fas fa-user-tie"></i>
+                    Staff Login
+                </button>
+            </div>
         </div>
     </section>
 

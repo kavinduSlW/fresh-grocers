@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Grocers - Order Status</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Customer Navigation -->
+    <nav class="customer-navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Fresh Grocers</span>
+                <span class="customer-badge">Customer</span>
+            </div>
+            <div class="nav-links">
+                <a href="customer-order.html">
+                    <i class="fas fa-shopping-bag"></i>
+                    Order
+                </a>
+                <a href="customer-status.html" class="active">
+                    <i class="fas fa-clock"></i>
+                    Order Status
+                </a>
+                <a href="customer-feedback.html">
+                    <i class="fas fa-star"></i>
+                    Feedback
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="customer-container">
+        <div class="page-header">
+            <h1>Order Status</h1>
+            <p>Track your orders and delivery status in real-time</p>
+        </div>
+
+        <div class="status-content">
+            <!-- Order Search -->
+            <div class="search-section">
+                <div class="search-bar">
+                    <input type="text" id="orderSearch" placeholder="Search by Order ID or item name..." onkeyup="searchOrders()">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterOrders('all')">All Orders</button>
+                    <button class="filter-btn" onclick="filterOrders('pending')">Pending</button>
+                    <button class="filter-btn" onclick="filterOrders('confirmed')">Confirmed</button>
+                    <button class="filter-btn" onclick="filterOrders('in_transit')">In Transit</button>
+                    <button class="filter-btn" onclick="filterOrders('delivered')">Delivered</button>
+                </div>
+            </div>
+
+            <!-- Orders List -->
+            <div class="orders-section">
+                <div class="orders-header">
+                    <h2>Your Orders</h2>
+                    <span class="orders-count" id="ordersCount">0 orders</span>
+                </div>
+
+                <div class="orders-list" id="ordersList">
+                    <!-- Orders will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content large">
+            <span class="close" onclick="closeOrderDetails()">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-receipt"></i>
+                <h2>Order Details</h2>
+            </div>
+            <div class="modal-body" id="orderDetailsContent">
+                <!-- Order details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Track Order Modal -->
+    <div id="trackOrderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTrackOrder()">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-map-marker-alt"></i>
+                <h2>Track Your Order</h2>
+            </div>
+            <div class="modal-body" id="trackOrderContent">
+                <!-- Tracking info will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/customer-status.js"></script>
+</body>
+</html>

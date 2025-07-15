@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - Fresh Grocers Admin</title>
+    <link rel="stylesheet" href="css/delivery-system.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-leaf"></i>
+                <span>Fresh Grocers Admin</span>
+            </div>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links">
+                <li><a href="admin-dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="admin-inventory.html"><i class="fas fa-boxes"></i> Inventory</a></li>
+                <li><a href="admin-reports.html" class="active"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                <li><a href="admin-delivery.html"><i class="fas fa-truck"></i> Delivery</a></li>
+                <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <div class="admin-container">
+            <!-- Header -->
+            <div class="admin-header">
+                <h1><i class="fas fa-chart-bar"></i> Reports & Analytics</h1>
+                <div class="header-actions">
+                    <div class="date-range-picker">
+                        <input type="date" id="startDate" value="">
+                        <span>to</span>
+                        <input type="date" id="endDate" value="">
+                        <button class="btn btn-secondary" onclick="applyDateFilter()">
+                            <i class="fas fa-filter"></i> Apply
+                        </button>
+                    </div>
+                    <button class="btn btn-primary" onclick="exportReports()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="metrics-section">
+                <h2>Key Performance Indicators</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card revenue">
+                        <div class="metric-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="totalRevenue">$0</div>
+                            <div class="metric-label">Total Revenue</div>
+                            <div class="metric-change positive" id="revenueChange">+12.5%</div>
+                        </div>
+                    </div>
+                    <div class="metric-card orders">
+                        <div class="metric-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="totalOrders">0</div>
+                            <div class="metric-label">Total Orders</div>
+                            <div class="metric-change positive" id="ordersChange">+8.2%</div>
+                        </div>
+                    </div>
+                    <div class="metric-card customers">
+                        <div class="metric-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="totalCustomers">0</div>
+                            <div class="metric-label">Active Customers</div>
+                            <div class="metric-change positive" id="customersChange">+15.7%</div>
+                        </div>
+                    </div>
+                    <div class="metric-card average-order">
+                        <div class="metric-icon">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="averageOrder">$0</div>
+                            <div class="metric-label">Average Order Value</div>
+                            <div class="metric-change positive" id="averageChange">+5.3%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Sales Trend</h3>
+                        <div class="chart-filters">
+                            <button class="chart-filter-btn active" onclick="changeSalesChart('daily')">Daily</button>
+                            <button class="chart-filter-btn" onclick="changeSalesChart('weekly')">Weekly</button>
+                            <button class="chart-filter-btn" onclick="changeSalesChart('monthly')">Monthly</button>
+                        </div>
+                    </div>
+                    <div class="chart-content">
+                        <canvas id="salesChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Top Selling Categories</h3>
+                    </div>
+                    <div class="chart-content">
+                        <div class="category-stats" id="categoryStats">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Reports -->
+            <div class="reports-section">
+                <div class="report-tabs">
+                    <button class="tab-btn active" onclick="showReport('sales')">Sales Report</button>
+                    <button class="tab-btn" onclick="showReport('inventory')">Inventory Report</button>
+                    <button class="tab-btn" onclick="showReport('customer')">Customer Report</button>
+                    <button class="tab-btn" onclick="showReport('delivery')">Delivery Report</button>
+                </div>
+
+                <!-- Sales Report -->
+                <div id="salesReport" class="report-content active">
+                    <div class="report-header">
+                        <h3>Sales Performance</h3>
+                        <div class="report-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Total Sales:</span>
+                                <span class="summary-value" id="reportTotalSales">$0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Orders Completed:</span>
+                                <span class="summary-value" id="reportOrdersCompleted">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Success Rate:</span>
+                                <span class="summary-value" id="reportSuccessRate">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Inventory Report -->
+                <div id="inventoryReport" class="report-content">
+                    <div class="report-header">
+                        <h3>Inventory Analysis</h3>
+                        <div class="report-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Total Products:</span>
+                                <span class="summary-value" id="reportTotalProducts">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Low Stock Items:</span>
+                                <span class="summary-value" id="reportLowStock">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Inventory Value:</span>
+                                <span class="summary-value" id="reportInventoryValue">$0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Current Stock</th>
+                                    <th>Sold This Period</th>
+                                    <th>Revenue</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Customer Report -->
+                <div id="customerReport" class="report-content">
+                    <div class="report-header">
+                        <h3>Customer Analytics</h3>
+                        <div class="report-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">New Customers:</span>
+                                <span class="summary-value" id="reportNewCustomers">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Returning Customers:</span>
+                                <span class="summary-value" id="reportReturningCustomers">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Customer Retention:</span>
+                                <span class="summary-value" id="reportRetentionRate">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Orders</th>
+                                    <th>Total Spent</th>
+                                    <th>Last Order</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customerTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Delivery Report -->
+                <div id="deliveryReport" class="report-content">
+                    <div class="report-header">
+                        <h3>Delivery Performance</h3>
+                        <div class="report-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">On-Time Deliveries:</span>
+                                <span class="summary-value" id="reportOnTimeDeliveries">0%</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Avg Delivery Time:</span>
+                                <span class="summary-value" id="reportAvgDeliveryTime">0 min</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Total Deliveries:</span>
+                                <span class="summary-value" id="reportTotalDeliveries">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Order ID</th>
+                                    <th>Delivery Agent</th>
+                                    <th>Delivery Time</th>
+                                    <th>Status</th>
+                                    <th>Customer Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deliveryTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/admin-reports.js"></script>
+</body>
+</html>

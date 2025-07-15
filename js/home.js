@@ -112,6 +112,14 @@ function goToLogin() {
     window.location.href = 'login.html';
 }
 
+function goToCustomerLogin() {
+    window.location.href = 'login.html?type=customer';
+}
+
+function goToStaffLogin() {
+    window.location.href = 'login.html?type=staff';
+}
+
 function scrollToFeatures() {
     const featuresSection = document.getElementById('features');
     if (featuresSection) {
@@ -186,3 +194,96 @@ document.addEventListener('DOMContentLoaded', function() {
         aboutObserver.observe(aboutSection);
     }
 });
+
+// Add CSS for new CTA buttons
+const style = document.createElement('style');
+style.textContent = `
+    .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+    
+    .cta-buttons .btn-primary-large,
+    .cta-buttons .btn-secondary-large {
+        min-width: 180px;
+        flex: 1;
+        max-width: 250px;
+    }
+    
+    @media (max-width: 768px) {
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .cta-buttons .btn-primary-large,
+        .cta-buttons .btn-secondary-large {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Login options modal
+function showLoginOptions() {
+    // Remove existing modal if any
+    const existingModal = document.getElementById('loginOptionsModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Create login options modal
+    const modal = document.createElement('div');
+    modal.id = 'loginOptionsModal';
+    modal.innerHTML = `
+        <div class="login-options-overlay" onclick="closeLoginOptions()">
+            <div class="login-options-modal" onclick="event.stopPropagation()">
+                <div class="login-options-header">
+                    <h3><i class="fas fa-sign-in-alt"></i> Choose Login Type</h3>
+                    <button class="close-btn" onclick="closeLoginOptions()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="login-options-content">
+                    <button class="login-option-btn customer-btn" onclick="goToCustomerLogin()">
+                        <i class="fas fa-user"></i>
+                        <div class="option-content">
+                            <h4>Customer Login</h4>
+                            <p>Shop for groceries and place orders</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="login-option-btn staff-btn" onclick="goToStaffLogin()">
+                        <i class="fas fa-user-tie"></i>
+                        <div class="option-content">
+                            <h4>Staff Login</h4>
+                            <p>Access admin dashboard and management tools</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Show with animation
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+}
+
+function closeLoginOptions() {
+    const modal = document.getElementById('loginOptionsModal');
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.remove();
+        }, 300);
+    }
+}

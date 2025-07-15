@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Grocers - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="admin-navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Fresh Grocers</span>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <div class="nav-links">
+                <a href="admin-dashboard.html" class="active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+                <a href="admin-inventory.html">
+                    <i class="fas fa-boxes"></i>
+                    Inventory
+                </a>
+                <a href="admin-reports.html">
+                    <i class="fas fa-chart-bar"></i>
+                    Reports
+                </a>
+                <a href="admin-delivery.html">
+                    <i class="fas fa-truck"></i>
+                    Delivery
+                </a>
+                <a href="admin-staff.html">
+                    <i class="fas fa-users"></i>
+                    Staff
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="page-header">
+            <h1>Admin Dashboard</h1>
+            <p>Welcome back! Here's what's happening with your store today.</p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card orders">
+                <div class="card-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="totalOrders">248</h3>
+                    <p>Total Orders</p>
+                    <span class="card-change positive">+12% from yesterday</span>
+                </div>
+            </div>
+
+            <div class="summary-card alerts">
+                <div class="card-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="lowStockAlerts">5</h3>
+                    <p>Low Stock Alerts</p>
+                    <span class="card-change negative">3 critical items</span>
+                </div>
+            </div>
+
+            <div class="summary-card agents">
+                <div class="card-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="activeAgents">12</h3>
+                    <p>Active Agents</p>
+                    <span class="card-change neutral">8 available, 4 busy</span>
+                </div>
+            </div>
+
+            <div class="summary-card revenue">
+                <div class="card-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="todayRevenue">$2,847</h3>
+                    <p>Today's Revenue</p>
+                    <span class="card-change positive">+8% from yesterday</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="location.href='admin-inventory.html'">
+                    <i class="fas fa-plus"></i>
+                    Add Product
+                </button>
+                <button class="action-btn" onclick="location.href='admin-delivery.html'">
+                    <i class="fas fa-truck"></i>
+                    Manage Deliveries
+                </button>
+                <button class="action-btn" onclick="location.href='admin-reports.html'">
+                    <i class="fas fa-file-alt"></i>
+                    Generate Report
+                </button>
+                <button class="action-btn" onclick="showNotifications()">
+                    <i class="fas fa-bell"></i>
+                    View Alerts
+                </button>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="recent-section">
+            <h2>Recent Orders</h2>
+            <div class="orders-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Agent</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentOrdersTable">
+                        <tr>
+                            <td>#ORD-001</td>
+                            <td>John Smith</td>
+                            <td>5 items</td>
+                            <td>$45.99</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td>-</td>
+                            <td><button class="btn-small" onclick="assignAgent('ORD-001')">Assign</button></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-002</td>
+                            <td>Sarah Johnson</td>
+                            <td>8 items</td>
+                            <td>$72.50</td>
+                            <td><span class="status assigned">Assigned</span></td>
+                            <td>Mike Davis</td>
+                            <td><button class="btn-small" onclick="trackOrder('ORD-002')">Track</button></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-003</td>
+                            <td>Robert Wilson</td>
+                            <td>3 items</td>
+                            <td>$28.75</td>
+                            <td><span class="status delivered">Delivered</span></td>
+                            <td>Lisa Chen</td>
+                            <td><button class="btn-small" onclick="viewOrder('ORD-003')">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Low Stock Alerts -->
+        <div class="alerts-section">
+            <h2>Low Stock Alerts</h2>
+            <div class="alert-items" id="lowStockItems">
+                <div class="alert-item critical">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div class="alert-content">
+                        <h4>Organic Bananas</h4>
+                        <p>Only 2 units left - Critical</p>
+                    </div>
+                    <button class="btn-small" onclick="restockItem('bananas')">Restock</button>
+                </div>
+                <div class="alert-item warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="alert-content">
+                        <h4>Fresh Milk</h4>
+                        <p>8 units left - Low</p>
+                    </div>
+                    <button class="btn-small" onclick="restockItem('milk')">Restock</button>
+                </div>
+                <div class="alert-item warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="alert-content">
+                        <h4>Whole Wheat Bread</h4>
+                        <p>5 units left - Low</p>
+                    </div>
+                    <button class="btn-small" onclick="restockItem('bread')">Restock</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Grocers - Place Order</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Customer Navigation -->
+    <nav class="customer-navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Fresh Grocers</span>
+                <span class="customer-badge">Customer</span>
+            </div>
+            <div class="nav-links">
+                <a href="customer-order.html" class="active">
+                    <i class="fas fa-shopping-bag"></i>
+                    Order
+                </a>
+                <a href="customer-status.html">
+                    <i class="fas fa-clock"></i>
+                    Order Status
+                </a>
+                <a href="customer-feedback.html">
+                    <i class="fas fa-star"></i>
+                    Feedback
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="customer-container">
+        <div class="page-header">
+            <h1>Place Your Order</h1>
+            <p>Select from our fresh products and get them delivered to your doorstep</p>
+        </div>
+
+        <div class="order-content">
+            <!-- Product Categories -->
+            <div class="category-filters">
+                <button class="category-btn active" onclick="filterProducts('all')">All Products</button>
+                <button class="category-btn" onclick="filterProducts('fruits')">Fruits</button>
+                <button class="category-btn" onclick="filterProducts('vegetables')">Vegetables</button>
+                <button class="category-btn" onclick="filterProducts('dairy')">Dairy</button>
+                <button class="category-btn" onclick="filterProducts('bakery')">Bakery</button>
+                <button class="category-btn" onclick="filterProducts('meat')">Meat</button>
+            </div>
+
+            <div class="order-main">
+                <!-- Products List -->
+                <div class="products-section">
+                    <div class="products-header">
+                        <h2>Available Products</h2>
+                        <div class="search-bar">
+                            <input type="text" id="productSearch" placeholder="Search products..." onkeyup="searchProducts()">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Products will be dynamically loaded here -->
+                    </div>
+                </div>
+
+                <!-- Shopping Cart -->
+                <div class="cart-section">
+                    <div class="cart-header">
+                        <h2>
+                            <i class="fas fa-shopping-cart"></i>
+                            Shopping Cart
+                            <span class="cart-count" id="cartCount">0 items</span>
+                        </h2>
+                    </div>
+
+                    <div class="cart-content">
+                        <div class="cart-items" id="cartItems">
+                            <div class="empty-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h3>Your cart is empty</h3>
+                                <p>Add some fresh products to get started</p>
+                                <a href="#products" class="shop-now-btn">
+                                    <i class="fas fa-leaf"></i>
+                                    Start Shopping
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="cart-summary" id="cartSummary" style="display: none;">
+                            <div class="summary-row">
+                                <span class="summary-label">Subtotal:</span>
+                                <span class="summary-value" id="subtotal">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="summary-label">Delivery Fee:</span>
+                                <span class="summary-value" id="deliveryFee">$3.99</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total:</span>
+                                <span id="total">$3.99</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Details -->
+                <div class="delivery-section" id="deliverySection" style="display: none;">
+                    <div class="delivery-header">
+                        <h3>
+                            <i class="fas fa-truck"></i>
+                            Delivery Details
+                        </h3>
+                    </div>
+                    
+                    <div class="delivery-content">
+                        <div class="form-group">
+                            <label for="deliveryAddress">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Delivery Address
+                            </label>
+                            <div class="address-input">
+                                <textarea id="deliveryAddress" placeholder="Enter your complete delivery address with landmarks" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deliveryAgent">
+                                <i class="fas fa-user-circle"></i>
+                                Select Delivery Agent
+                            </label>
+                            <div class="agent-select">
+                                <div class="agent-select">
+                                <select id="deliveryAgent" required>
+                                    <option value="">Choose available agent</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deliveryNotes">
+                                <i class="fas fa-sticky-note"></i>
+                                Special Instructions (Optional)
+                            </label>
+                            <div class="instructions-input">
+                                <textarea id="deliveryNotes" placeholder="Any special delivery instructions, building number, gate code, etc."></textarea>
+                            </div>
+                        </div>
+
+                        <button class="place-order-btn" onclick="placeOrder()">
+                            <i class="fas fa-shopping-bag"></i>
+                            Place Order
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOrderModal()">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-check-circle"></i>
+                <h2>Order Placed Successfully!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Your order has been placed successfully.</p>
+                <p><strong>Order ID:</strong> <span id="modalOrderId"></span></p>
+                <p><strong>Estimated Delivery:</strong> <span id="modalDeliveryTime"></span></p>
+                <p><strong>Total Amount:</strong> <span id="modalTotal"></span></p>
+                <p class="sms-notice">📱 SMS confirmation sent to your registered phone number</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="viewOrderStatus()">Track Order</button>
+                <button class="btn-secondary" onclick="closeOrderModal()">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/customer-order.js"></script>
+</body>
+</html>

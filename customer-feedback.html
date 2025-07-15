@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Grocers - Feedback</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Customer Navigation -->
+    <nav class="customer-navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Fresh Grocers</span>
+                <span class="customer-badge">Customer</span>
+            </div>
+            <div class="nav-links">
+                <a href="customer-order.html">
+                    <i class="fas fa-shopping-bag"></i>
+                    Order
+                </a>
+                <a href="customer-status.html">
+                    <i class="fas fa-clock"></i>
+                    Order Status
+                </a>
+                <a href="customer-feedback.html" class="active">
+                    <i class="fas fa-star"></i>
+                    Feedback
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="customer-container">
+        <div class="page-header">
+            <h1>Feedback & Reviews</h1>
+            <p>Share your experience and help us improve our service</p>
+        </div>
+
+        <div class="feedback-content">
+            <!-- Quick Feedback Section -->
+            <div class="quick-feedback-section">
+                <div class="section-header">
+                    <h2>Quick Feedback</h2>
+                    <p>Rate your overall experience with Fresh Grocers</p>
+                </div>
+                
+                <div class="quick-rating">
+                    <div class="rating-question">
+                        <h3>How satisfied are you with our service?</h3>
+                        <div class="star-rating" id="overallRating">
+                            <i class="fas fa-star" data-rating="1"></i>
+                            <i class="fas fa-star" data-rating="2"></i>
+                            <i class="fas fa-star" data-rating="3"></i>
+                            <i class="fas fa-star" data-rating="4"></i>
+                            <i class="fas fa-star" data-rating="5"></i>
+                        </div>
+                        <span class="rating-text" id="ratingText">Click to rate</span>
+                    </div>
+                    
+                    <div class="quick-comment">
+                        <textarea id="quickComment" placeholder="Tell us what you think... (optional)" rows="3"></textarea>
+                        <button class="submit-quick-btn" onclick="submitQuickFeedback()">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit Feedback
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Feedback Section -->
+            <div class="order-feedback-section">
+                <div class="section-header">
+                    <h2>Rate Your Orders</h2>
+                    <p>Provide feedback for your recent orders</p>
+                </div>
+                
+                <div class="orders-to-rate" id="ordersToRate">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Previous Feedback Section -->
+            <div class="previous-feedback-section">
+                <div class="section-header">
+                    <h2>Your Previous Feedback</h2>
+                    <p>View and manage your past reviews</p>
+                </div>
+                
+                <div class="feedback-list" id="feedbackList">
+                    <!-- Previous feedback will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Rating Modal -->
+    <div id="orderRatingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOrderRating()">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-star"></i>
+                <h2>Rate Your Order</h2>
+            </div>
+            <div class="modal-body" id="orderRatingContent">
+                <!-- Order rating content will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/customer-feedback.js"></script>
+</body>
+</html>

@@ -4,138 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fresh Grocers - Login</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/delivery-system.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="back-to-home">
-                <a href="index.html" class="back-link">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </a>
-            </div>
-            
-            <div class="logo-section">
-                <i class="fas fa-shopping-cart logo-icon"></i>
-                <h1>Fresh Grocers</h1>
-                <p>Inventory Management System</p>
-            </div>
-            
-            <form id="loginForm" class="login-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <div class="input-group">
-                        <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="off" required>
-                    </div>
-                    <span class="error-message" id="usernameError"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-group">
-                        <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="off" required>
-                        <i class="fas fa-eye-slash toggle-password" onclick="togglePassword()"></i>
-                    </div>
-                    <span class="error-message" id="passwordError"></span>
-                </div>
-                
-                <button type="submit" class="login-btn">
-                    <span class="btn-text">Sign In</span>
-                    <i class="fas fa-spinner fa-spin loading-spinner" style="display: none;"></i>
+    <div class="login-page">
+        <div class="login-container">
+            <!-- Login Type Selection -->
+            <div class="login-type-selector">
+                <button class="login-type-btn active" onclick="showCustomerLogin()">
+                    <i class="fas fa-user"></i>
+                    <span>Customer Login</span>
+                    <small>Shop for groceries</small>
                 </button>
-                
-                <div class="forgot-password">
-                    <a href="#">Forgot your password?</a>
+                <button class="login-type-btn" onclick="showStaffLogin()">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Staff Login</span>
+                    <small>Admin & Staff only</small>
+                </button>
+            </div>
+
+            <!-- Customer Login -->
+            <div id="customerLogin" class="login-card active">
+                <div class="back-to-home">
+                    <a href="index.html" class="back-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Home
+                    </a>
                 </div>
                 
-                <div class="signup-option">
-                    <p>Don't have an account? <a href="#" onclick="showSignupForm()">Create Account</a></p>
+                <div class="logo-section">
+                    <i class="fas fa-leaf logo-icon"></i>
+                    <h1>Fresh Grocers</h1>
+                    <p>Customer Login</p>
                 </div>
-            </form>
-        </div>
-        
-        <!-- Signup Form (Hidden by default) -->
-        <div class="signup-card" id="signupCard" style="display: none;">
-            <div class="back-to-home">
-                <a href="index.html" class="back-link">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </a>
-            </div>
-            
-            <div class="logo-section">
-                <i class="fas fa-shopping-cart logo-icon"></i>
-                <h1>Fresh Grocers</h1>
-                <p>Create Your Account</p>
-            </div>
-            
-            <form id="signupForm" class="signup-form">
-                <div class="form-row">
+
+                <form id="customerLoginForm">
                     <div class="form-group">
-                        <label for="firstName">First Name</label>
+                        <label for="customerEmail">Email Address</label>
                         <div class="input-group">
-                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                            <input type="email" id="customerEmail" name="email" placeholder="Enter your email" required>
+                            <i class="fas fa-envelope"></i>
                         </div>
-                        <span class="error-message" id="firstNameError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPassword">Password</label>
+                        <div class="input-group">
+                            <input type="password" id="customerPassword" name="password" placeholder="Enter your password" required>
+                            <i class="fas fa-lock"></i>
+                            <button type="button" class="toggle-password" data-target="customerPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-btn customer-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login as Customer
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <div class="forgot-password">
+                        <a href="#">Forgot your password?</a>
+                    </div>
+                    <div class="signup-option">
+                        <p>Don't have an account? <a href="customer-registration.html">Register here</a></p>
+                    </div>
+                    <div class="debug-section" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px; font-size: 12px;">
+                        <button type="button" onclick="showRegisteredUsers()" style="padding: 5px 10px; font-size: 11px; background: #6c757d; color: white; border: none; border-radius: 4px; margin-right: 5px;">
+                            Debug: Show Registered Users
+                        </button>
+                        <button type="button" onclick="clearUserData()" style="padding: 5px 10px; font-size: 11px; background: #dc3545; color: white; border: none; border-radius: 4px;">
+                            Clear All Data
+                        </button>
+                        <div style="margin-top: 10px; padding: 8px; background: #e3f2fd; border-radius: 4px;">
+                            <strong style="color: #1565c0;">🔐 Demo Accounts:</strong><br>
+                            <strong>Customer:</strong> demo@customer.com / demo123<br>
+                            <strong>Admin:</strong> admin@freshgrocers.com / admin123 / ADM001<br>
+                            <strong>Manager:</strong> manager@freshgrocers.com / manager123 / MGR001<br>
+                            <strong>Staff:</strong> staff1@freshgrocers.com / staff123 / STF001
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staff Login -->
+            <div id="staffLogin" class="login-card">
+                <div class="back-to-home">
+                    <a href="index.html" class="back-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Home
+                    </a>
+                </div>
+                
+                <div class="logo-section">
+                    <i class="fas fa-leaf logo-icon"></i>
+                    <h1>Fresh Grocers</h1>
+                    <p>Staff Access Portal</p>
+                </div>
+
+                <form id="staffLoginForm">
+                    <div class="form-group">
+                        <label for="staffEmail">Staff Email</label>
+                        <div class="input-group">
+                            <input type="email" id="staffEmail" name="email" placeholder="Enter your staff email" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="staffPassword">Password</label>
+                        <div class="input-group">
+                            <input type="password" id="staffPassword" name="password" placeholder="Enter your password" required>
+                            <i class="fas fa-lock"></i>
+                            <button type="button" class="toggle-password" data-target="staffPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="staffId">Staff ID</label>
+                        <div class="input-group">
+                            <input type="text" id="staffId" name="staffId" placeholder="Enter your staff ID" required>
+                            <i class="fas fa-id-badge"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-btn staff-btn">
+                        <i class="fas fa-shield-alt"></i>
+                        Login as Staff
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <div class="staff-note">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Need a staff account? <a href="staff-registration.html" class="register-link">Register here</a></p>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <div class="input-group">
-                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                    <div class="demo-credentials">
+                        <h4><i class="fas fa-key"></i> Demo Staff Accounts:</h4>
+                        <div class="credentials-grid">
+                            <div class="credential-item">
+                                <strong>Admin:</strong> admin@freshgrocers.com / admin123 / ADM001
+                            </div>
+                            <div class="credential-item">
+                                <strong>Manager:</strong> manager@freshgrocers.com / manager123 / MGR001
+                            </div>
+                            <div class="credential-item">
+                                <strong>Staff 1:</strong> staff1@freshgrocers.com / staff123 / STF001
+                            </div>
+                            <div class="credential-item">
+                                <strong>Registered Staff:</strong> john.doe@freshgrocers.com / demo123 / STF999
+                            </div>
                         </div>
-                        <span class="error-message" id="lastNameError"></span>
+                        <small style="color: #6b7280; font-style: italic; display: block; margin-top: 10px;">
+                            The "Registered Staff" account was created through the registration system
+                        </small>
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <div class="input-group">
-                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
-                    </div>
-                    <span class="error-message" id="emailError"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="signupUsername">Username</label>
-                    <div class="input-group">
-                        <input type="text" id="signupUsername" name="signupUsername" placeholder="Choose a username" autocomplete="off" required>
-                    </div>
-                    <span class="error-message" id="signupUsernameError"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="signupPassword">Password</label>
-                    <div class="input-group">
-                        <input type="password" id="signupPassword" name="signupPassword" placeholder="Create a password" autocomplete="off" required>
-                        <i class="fas fa-eye-slash toggle-password" onclick="toggleSignupPassword()"></i>
-                    </div>
-                    <span class="error-message" id="signupPasswordError"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <div class="input-group">
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" autocomplete="off" required>
-                        <i class="fas fa-eye-slash toggle-password" onclick="toggleConfirmPassword()"></i>
-                    </div>
-                    <span class="error-message" id="confirmPasswordError"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="storePosition">Position/Role</label>
-                    <div class="input-group">
-                        <select id="storePosition" name="storePosition" required>
-                            <option value="">Select your role</option>
-                            <option value="manager">Store Manager</option>
-                            <option value="assistant">Assistant Manager</option>
-                            <option value="inventory">Inventory Clerk</option>
-                            <option value="cashier">Cashier</option>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/secure-login.js"></script>
+</body>
+</html>
                             <option value="supervisor">Supervisor</option>
                         </select>
                     </div>
@@ -163,6 +203,6 @@
         </div>
     </div>
 
-    <script src="js/login.js"></script>
+    <script src="js/delivery-login.js"></script>
 </body>
 </html>
