@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Grocers - Delivery Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="admin-navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Fresh Grocers</span>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <div class="nav-links">
+                <a href="admin-dashboard.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+                <a href="admin-inventory.html">
+                    <i class="fas fa-boxes"></i>
+                    Inventory
+                </a>
+                <a href="admin-reports.html">
+                    <i class="fas fa-chart-bar"></i>
+                    Reports
+                </a>
+                <a href="admin-delivery.html" class="active">
+                    <i class="fas fa-truck"></i>
+                    Delivery
+                </a>
+                <a href="admin-staff.html">
+                    <i class="fas fa-users"></i>
+                    Staff
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="admin-main">
+        <div class="admin-container">
+            <div class="page-header">
+                <h1>Delivery Management</h1>
+                <p>Manage delivery agents, routes, and track real-time deliveries</p>
+            </div>
+
+        <!-- Delivery Stats -->
+        <div class="summary-cards">
+            <div class="summary-card orders">
+                <div class="card-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="activeDeliveries">23</h3>
+                    <p>Active Deliveries</p>
+                    <span class="card-change positive">+15% today</span>
+                </div>
+            </div>
+
+            <div class="summary-card agents">
+                <div class="card-icon">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="availableAgents">8</h3>
+                    <p>Available Agents</p>
+                    <span class="card-change neutral">4 busy, 2 offline</span>
+                </div>
+            </div>
+
+            <div class="summary-card alerts">
+                <div class="card-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="avgDeliveryTime">28</h3>
+                    <p>Avg Delivery Time (min)</p>
+                    <span class="card-change positive">-3 min from yesterday</span>
+                </div>
+            </div>
+
+            <div class="summary-card revenue">
+                <div class="card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="customerRating">4.8</h3>
+                    <p>Customer Rating</p>
+                    <span class="card-change positive">+0.2 this week</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="assignDelivery()">
+                    <i class="fas fa-plus"></i>
+                    Assign New Delivery
+                </button>
+                <button class="action-btn" onclick="manageAgents()">
+                    <i class="fas fa-users"></i>
+                    Manage Agents
+                </button>
+                <button class="action-btn" onclick="viewRoutes()">
+                    <i class="fas fa-route"></i>
+                    Optimize Routes
+                </button>
+                <button class="action-btn" onclick="generateReport()">
+                    <i class="fas fa-chart-line"></i>
+                    Delivery Report
+                </button>
+            </div>
+        </div>
+
+        <!-- Delivery Agents Section -->
+        <div class="delivery-section">
+            <h2>Delivery Agents Status</h2>
+            <div class="agents-grid">
+                <div class="agent-card available">
+                    <div class="agent-header">
+                        <div class="agent-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="agent-info">
+                            <h3>John Smith</h3>
+                            <span class="agent-id">AGT001</span>
+                        </div>
+                        <div class="status-indicator available">Available</div>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <span class="label">Deliveries Today:</span>
+                            <span class="value">12</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Rating:</span>
+                            <span class="value">4.9 ⭐</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Location:</span>
+                            <span class="value">Downtown Area</span>
+                        </div>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="btn-assign">Assign Delivery</button>
+                        <button class="btn-track">Track Location</button>
+                    </div>
+                </div>
+
+                <div class="agent-card busy">
+                    <div class="agent-header">
+                        <div class="agent-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="agent-info">
+                            <h3>Sarah Johnson</h3>
+                            <span class="agent-id">AGT002</span>
+                        </div>
+                        <div class="status-indicator busy">Busy</div>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <span class="label">Current Delivery:</span>
+                            <span class="value">#ORD2025001</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">ETA:</span>
+                            <span class="value">15 min</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Location:</span>
+                            <span class="value">Main Street</span>
+                        </div>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="btn-track">Track Delivery</button>
+                        <button class="btn-contact">Contact Agent</button>
+                    </div>
+                </div>
+
+                <div class="agent-card available">
+                    <div class="agent-header">
+                        <div class="agent-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="agent-info">
+                            <h3>Mike Wilson</h3>
+                            <span class="agent-id">AGT003</span>
+                        </div>
+                        <div class="status-indicator available">Available</div>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <span class="label">Deliveries Today:</span>
+                            <span class="value">8</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Rating:</span>
+                            <span class="value">4.7 ⭐</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Location:</span>
+                            <span class="value">North District</span>
+                        </div>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="btn-assign">Assign Delivery</button>
+                        <button class="btn-track">Track Location</button>
+                    </div>
+                </div>
+
+                <div class="agent-card offline">
+                    <div class="agent-header">
+                        <div class="agent-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="agent-info">
+                            <h3>Lisa Chen</h3>
+                            <span class="agent-id">AGT004</span>
+                        </div>
+                        <div class="status-indicator offline">Offline</div>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <span class="label">Last Active:</span>
+                            <span class="value">2 hours ago</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Deliveries Today:</span>
+                            <span class="value">6</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Shift Ends:</span>
+                            <span class="value">6:00 PM</span>
+                        </div>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="btn-contact" disabled>Contact Agent</button>
+                        <button class="btn-schedule">Schedule Shift</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Deliveries -->
+        <div class="recent-orders">
+            <h2>Recent Deliveries</h2>
+            <div class="table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Delivery ID</th>
+                            <th>Customer</th>
+                            <th>Agent</th>
+                            <th>Status</th>
+                            <th>Delivery Time</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deliveriesTableBody">
+                        <tr>
+                            <td>DEL2025001</td>
+                            <td>John Doe</td>
+                            <td>Sarah Johnson</td>
+                            <td><span class="status-badge processing">In Transit</span></td>
+                            <td>2:30 PM</td>
+                            <td>123 Main St</td>
+                            <td>
+                                <button class="btn-small track">Track</button>
+                                <button class="btn-small contact">Contact</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>DEL2025002</td>
+                            <td>Jane Smith</td>
+                            <td>John Smith</td>
+                            <td><span class="status-badge shipped">Delivered</span></td>
+                            <td>1:45 PM</td>
+                            <td>456 Oak Ave</td>
+                            <td>
+                                <button class="btn-small view">View</button>
+                                <button class="btn-small feedback">Feedback</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>DEL2025003</td>
+                            <td>Bob Wilson</td>
+                            <td>Mike Wilson</td>
+                            <td><span class="status-badge pending">Assigned</span></td>
+                            <td>3:15 PM</td>
+                            <td>789 Pine Rd</td>
+                            <td>
+                                <button class="btn-small assign">Reassign</button>
+                                <button class="btn-small edit">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>        </div>
+    </main>
+
+    <script src="js/admin-delivery.js"></script>
+</body>
+</html>

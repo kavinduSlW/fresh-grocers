@@ -87,7 +87,19 @@
                             <strong>Customer:</strong> demo@customer.com / demo123<br>
                             <strong>Admin:</strong> admin@freshgrocers.com / admin123 / ADM001<br>
                             <strong>Manager:</strong> manager@freshgrocers.com / manager123 / MGR001<br>
-                            <strong>Staff:</strong> staff1@freshgrocers.com / staff123 / STF001
+                            <strong>Staff:</strong> staff1@freshgrocers.com / staff123 / STF001<br>
+                            <strong>Registered:</strong> john.doe@freshgrocers.com / demo123 / STF999
+                        </div>
+                        
+                        <div style="margin-top: 10px; padding: 8px; background: #f0f9ff; border-radius: 4px;">                        <button type="button" onclick="testStaffLogin()" style="padding: 5px 10px; font-size: 11px; background: #0ea5e9; color: white; border: none; border-radius: 4px; margin-right: 5px;">
+                            Test Staff Login
+                        </button>
+                        <button type="button" onclick="checkStaffAccounts()" style="padding: 5px 10px; font-size: 11px; background: #8b5cf6; color: white; border: none; border-radius: 4px;">
+                            Check Staff Data
+                        </button>
+                        <button type="button" onclick="testDirectLogin()" style="padding: 5px 10px; font-size: 11px; background: #22c55e; color: white; border: none; border-radius: 4px; margin-left: 5px;">
+                            Test Customer Direct Login
+                        </button>
                         </div>
                     </div>
                 </div>
@@ -174,35 +186,5 @@
     </div>
 
     <script src="js/secure-login.js"></script>
-</body>
-</html>
-                            <option value="supervisor">Supervisor</option>
-                        </select>
-                    </div>
-                    <span class="error-message" id="storePositionError"></span>
-                </div>
-                
-                <div class="terms-checkbox">
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="agreeTerms" required>
-                        <span class="checkmark"></span>
-                        I agree to the <a href="#" onclick="showTerms()">Terms and Conditions</a>
-                    </label>
-                    <span class="error-message" id="termsError"></span>
-                </div>
-                
-                <button type="submit" class="signup-btn">
-                    <span class="btn-text">Create Account</span>
-                    <i class="fas fa-spinner fa-spin loading-spinner" style="display: none;"></i>
-                </button>
-                
-                <div class="login-option">
-                    <p>Already have an account? <a href="#" onclick="showLoginForm()">Sign In</a></p>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="js/delivery-login.js"></script>
 </body>
 </html>

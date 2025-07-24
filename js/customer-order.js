@@ -22,15 +22,42 @@ let products = [];
 let deliveryAgents = [];
 
 function checkCustomerAuth() {
+    console.log('🔐 Checking customer authentication...');
+    
     const currentUser = sessionStorage.getItem('currentUser');
+    console.log('👤 Current user session:', currentUser);
+    
     if (!currentUser) {
-        window.location.href = 'login.html';
+        console.log('❌ No session found - redirecting to login');
+        // Add a small delay to handle race conditions with login redirect
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 100);
         return;
     }
     
-    const user = JSON.parse(currentUser);
-    if (user.userType !== 'customer') {
-        alert('Access denied. Customer account required.');
+    try {
+        const user = JSON.parse(currentUser);
+        console.log('✅ Parsed user:', user);
+        
+        if (user.userType !== 'customer') {
+            console.log('❌ User is not a customer - access denied');
+            alert('Access denied. Customer account required.');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        console.log('✅ Customer authentication successful');
+        
+        // Update welcome message if element exists
+        const welcomeElement = document.querySelector('.welcome-user');
+        if (welcomeElement) {
+            welcomeElement.textContent = `Welcome, ${user.name}!`;
+        }
+        
+    } catch (error) {
+        console.error('❌ Error parsing user session:', error);
+        sessionStorage.removeItem('currentUser'); // Clear corrupted session
         window.location.href = 'login.html';
         return;
     }

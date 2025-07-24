@@ -14,15 +14,36 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function checkAdminAuth() {
+    console.log('🔐 Checking admin authentication...');
+    
     const currentUser = sessionStorage.getItem('currentUser');
+    console.log('👤 Current user session:', currentUser);
+    
     if (!currentUser) {
-        window.location.href = 'login.html';
+        console.log('❌ No session found - redirecting to login');
+        // Add a small delay to handle race conditions with login redirect
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 100);
         return;
     }
     
-    const user = JSON.parse(currentUser);
-    if (user.userType !== 'admin') {
-        alert('Access denied. Admin privileges required.');
+    try {
+        const user = JSON.parse(currentUser);
+        console.log('✅ Parsed user:', user);
+        
+        if (user.userType !== 'admin') {
+            console.log('❌ User is not an admin - access denied');
+            alert('Access denied. Admin privileges required.');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        console.log('✅ Admin authentication successful');
+        
+    } catch (error) {
+        console.error('❌ Error parsing user session:', error);
+        sessionStorage.removeItem('currentUser'); // Clear corrupted session
         window.location.href = 'login.html';
         return;
     }

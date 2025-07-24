@@ -57,15 +57,61 @@ function setupFormHandlers() {
     const customerForm = document.getElementById('customerLoginForm');
     const staffForm = document.getElementById('staffLoginForm');
     
-    customerForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        handleCustomerLogin();
-    });
+    console.log('🔧 Setting up form handlers...');
+    console.log('Customer form found:', !!customerForm);
+    console.log('Staff form found:', !!staffForm);
     
-    staffForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        handleStaffLogin();
-    });
+    if (customerForm) {
+        console.log('📝 Adding customer form event listener');
+        customerForm.addEventListener('submit', function(e) {
+            console.log('🚫 Preventing default form submission - CUSTOMER');
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('📝 Customer form submitted - calling handleCustomerLogin()');
+            handleCustomerLogin();
+            return false; // Extra prevention
+        });
+        
+        // Also add to the button directly as backup
+        const customerLoginBtn = customerForm.querySelector('button[type="submit"]');
+        if (customerLoginBtn) {
+            customerLoginBtn.addEventListener('click', function(e) {
+                console.log('🚫 Button click prevented - CUSTOMER');
+                e.preventDefault();
+                e.stopPropagation();
+                handleCustomerLogin();
+                return false;
+            });
+        }
+    } else {
+        console.error('❌ Customer form not found!');
+    }
+    
+    if (staffForm) {
+        console.log('📝 Adding staff form event listener');
+        staffForm.addEventListener('submit', function(e) {
+            console.log('🚫 Preventing default form submission - STAFF');
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('📝 Staff form submitted - calling handleStaffLogin()');
+            handleStaffLogin();
+            return false; // Extra prevention
+        });
+        
+        // Also add to the button directly as backup
+        const staffLoginBtn = staffForm.querySelector('button[type="submit"]');
+        if (staffLoginBtn) {
+            staffLoginBtn.addEventListener('click', function(e) {
+                console.log('🚫 Button click prevented - STAFF');
+                e.preventDefault();
+                e.stopPropagation();
+                handleStaffLogin();
+                return false;
+            });
+        }
+    } else {
+        console.error('❌ Staff form not found!');
+    }
 }
 
 function setupPasswordToggles() {
@@ -99,8 +145,16 @@ function showCustomerLogin() {
         card.classList.remove('active');
     });
     
-    event.target.closest('.login-type-btn').classList.add('active');
-    document.getElementById('customerLogin').classList.add('active');
+    // Find and activate customer login button
+    const customerBtn = document.querySelector('.login-type-btn:first-child');
+    if (customerBtn) {
+        customerBtn.classList.add('active');
+    }
+    
+    const customerLogin = document.getElementById('customerLogin');
+    if (customerLogin) {
+        customerLogin.classList.add('active');
+    }
 }
 
 function showStaffLogin() {
@@ -112,8 +166,16 @@ function showStaffLogin() {
         card.classList.remove('active');
     });
     
-    event.target.closest('.login-type-btn').classList.add('active');
-    document.getElementById('staffLogin').classList.add('active');
+    // Find and activate staff login button
+    const staffBtn = document.querySelector('.login-type-btn:last-child');
+    if (staffBtn) {
+        staffBtn.classList.add('active');
+    }
+    
+    const staffLogin = document.getElementById('staffLogin');
+    if (staffLogin) {
+        staffLogin.classList.add('active');
+    }
 }
 
 function handleCustomerLogin() {
@@ -169,6 +231,8 @@ function handleCustomerLogin() {
     console.log('=== END DEBUG ===');
     
     if (foundUser) {
+        console.log('🎉 LOGIN SUCCESS - Creating session and redirecting...');
+        
         // Create session
         const sessionData = {
             id: foundUser.id,
@@ -178,12 +242,30 @@ function handleCustomerLogin() {
             loginTime: new Date().toISOString()
         };
         
-        sessionStorage.setItem('currentUser', JSON.stringify(sessionData));
+        console.log('💾 Session data to store:', sessionData);
         
-        showSuccess('Login successful! Redirecting...');
-        setTimeout(() => {
-            window.location.href = 'customer-order.html';
-        }, 1500);
+        try {
+            sessionStorage.setItem('currentUser', JSON.stringify(sessionData));
+            console.log('✅ Session stored successfully');
+            
+            // Verify session was stored
+            const storedSession = sessionStorage.getItem('currentUser');
+            console.log('✅ Verification - stored session:', storedSession);
+            
+            showSuccess('Login successful! Redirecting...');
+            
+            console.log('⏰ Setting redirect timer...');
+            setTimeout(() => {
+                console.log('🚀 Executing redirect to customer-order.html');
+                console.log('📍 Current location before redirect:', window.location.href);
+                window.location.href = 'customer-order.html';
+                console.log('📍 Redirect command executed');
+            }, 800);
+            
+        } catch (error) {
+            console.error('❌ Session storage error:', error);
+            showError('Session creation failed. Please try again.');
+        }
     } else {
         // More specific error messages with debugging
         if (!emailMatch) {
@@ -203,6 +285,8 @@ function handleStaffLogin() {
     const password = document.getElementById('staffPassword').value;
     const staffId = document.getElementById('staffId').value.trim();
     
+    console.log('🔐 Staff Login Attempt:', { email, password: password ? '***' : 'empty', staffId });
+    
     if (!email || !password || !staffId) {
         showError('Please fill in all fields');
         return;
@@ -210,12 +294,15 @@ function handleStaffLogin() {
     
     // Get pre-defined staff accounts
     const predefinedStaff = JSON.parse(localStorage.getItem('staffAccounts') || '[]');
+    console.log('📋 Pre-defined Staff Accounts:', predefinedStaff);
     
     // Get approved registered staff accounts
     const approvedStaff = JSON.parse(localStorage.getItem('approvedStaffApplications') || '[]');
+    console.log('✅ Approved Staff Applications:', approvedStaff);
     
     // Combine both sources
     const allStaffAccounts = [...predefinedStaff, ...approvedStaff];
+    console.log('🔍 All Staff Accounts:', allStaffAccounts);
     
     // Verify credentials
     const staffMember = allStaffAccounts.find(staff => 
@@ -223,6 +310,8 @@ function handleStaffLogin() {
         staff.password === password && 
         staff.staffId === staffId
     );
+    
+    console.log('🎯 Found Staff Member:', staffMember);
     
     if (staffMember) {
         // Create session
@@ -236,12 +325,14 @@ function handleStaffLogin() {
             loginTime: new Date().toISOString()
         };
         
+        console.log('💾 Creating Session:', sessionData);
         sessionStorage.setItem('currentUser', JSON.stringify(sessionData));
         
         showSuccess('Staff login successful! Redirecting...');
         setTimeout(() => {
+            console.log('🚀 Redirecting to admin dashboard...');
             window.location.href = 'admin-dashboard.html';
-        }, 1500);
+        }, 800);
     } else {
         // Check if there's a pending application
         const pendingApplications = JSON.parse(localStorage.getItem('pendingStaffApplications') || '[]');
@@ -250,7 +341,7 @@ function handleStaffLogin() {
         if (pendingApp) {
             showError('Your registration is still pending approval. Please contact your supervisor.');
         } else {
-            showError('Invalid credentials or staff ID. Please contact your administrator or register as a new staff member.');
+            showError('Invalid credentials or staff ID. Please check your details and try again.');
         }
     }
 }
@@ -314,6 +405,47 @@ function createDemoCustomer() {
     if (!users.find(u => u.email === demoCustomer.email)) {
         users.push(demoCustomer);
         localStorage.setItem('users', JSON.stringify(users));
+    }
+}
+
+// Auto-approve demo registration for testing (remove in production)
+function createDemoRegisteredStaff() {
+    const demoStaff = {
+        id: Date.now(),
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@freshgrocers.com',
+        password: 'demo123',
+        phone: '+1234567890',
+        requestedRole: 'staff',
+        department: 'sales',
+        employeeId: 'STF999',
+        supervisorEmail: 'admin@freshgrocers.com',
+        submittedAt: new Date().toISOString(),
+        status: 'pending'
+    };
+    
+    // Check if already exists
+    const existing = JSON.parse(localStorage.getItem('approvedStaffApplications') || '[]');
+    const alreadyExists = existing.find(staff => staff.email === demoStaff.email);
+    
+    if (!alreadyExists) {
+        // Add to pending applications
+        const pendingApplications = JSON.parse(localStorage.getItem('pendingStaffApplications') || '[]');
+        const alreadyPending = pendingApplications.find(app => app.email === demoStaff.email);
+        
+        if (!alreadyPending) {
+            pendingApplications.push(demoStaff);
+            localStorage.setItem('pendingStaffApplications', JSON.stringify(pendingApplications));
+            
+            // Auto-approve it immediately
+            setTimeout(() => {
+                const result = approveStaffRegistration(demoStaff.id);
+                if (result.success) {
+                    console.log('✅ Demo staff registration auto-approved: john.doe@freshgrocers.com / demo123 / STF999');
+                }
+            }, 100);
+        }
     }
 }
 
@@ -762,5 +894,66 @@ function checkLoginTypeFromURL() {
     } else if (loginType === 'customer') {
         // Automatically switch to customer login (already default)
         showCustomerLogin();
+    }
+}
+
+// Test functions for debugging
+function testDirectLogin() {
+    console.log('🧪 Testing direct customer login...');
+    
+    // Fill the form with demo credentials
+    document.getElementById('customerEmail').value = 'demo@customer.com';
+    document.getElementById('customerPassword').value = 'demo123';
+    
+    // Call the login handler directly
+    handleCustomerLogin();
+}
+
+function testStaffLogin() {
+    console.log('🧪 Testing staff login directly...');
+    
+    // Switch to staff login first
+    showStaffLogin();
+    
+    setTimeout(() => {
+        // Fill the form with demo credentials
+        document.getElementById('staffEmail').value = 'admin@freshgrocers.com';
+        document.getElementById('staffPassword').value = 'admin123';
+        document.getElementById('staffId').value = 'ADM001';
+        
+        // Call the login handler directly
+        handleStaffLogin();
+    }, 100);
+}
+
+function checkStaffAccounts() {
+    console.log('📋 Checking all staff accounts...');
+    console.log('Pre-defined staff:', JSON.parse(localStorage.getItem('staffAccounts') || '[]'));
+    console.log('Approved staff:', JSON.parse(localStorage.getItem('approvedStaffApplications') || '[]'));
+    console.log('Pending staff:', JSON.parse(localStorage.getItem('pendingStaffApplications') || '[]'));
+}
+
+function showRegisteredUsers() {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    console.log('👥 All registered users:');
+    console.table(users);
+    
+    alert(`Registered Users (${users.length}):\n\n` + 
+          users.map(u => `${u.firstName} ${u.lastName}\nEmail: ${u.email}\nType: ${u.userType}`).join('\n\n'));
+}
+
+function clearUserData() {
+    if (confirm('Clear ALL user data? This will remove all registered users and staff.')) {
+        localStorage.removeItem('users');
+        localStorage.removeItem('staffAccounts');
+        localStorage.removeItem('approvedStaffApplications');
+        localStorage.removeItem('pendingStaffApplications');
+        
+        // Recreate demo data
+        initializeStaffAccounts();
+        createDemoCustomer();
+        createDemoRegisteredStaff();
+        
+        alert('All data cleared and demo accounts recreated!');
     }
 }
